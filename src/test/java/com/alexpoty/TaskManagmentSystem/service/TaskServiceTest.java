@@ -37,7 +37,7 @@ public class TaskServiceTest {
     private TaskDto taskDto;
 
     @BeforeEach
-    void setUp() {
+    void init() {
         task = Task.builder()
                 .id(1L)
                 .title("Test1")
@@ -56,7 +56,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_create_task() {
+     public void TaskService_CreateTask_ReturnTask() {
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
         Task createdTask = taskService.createTask(taskDto);
@@ -68,7 +68,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_getTask_byId() {
+    public void TaskService_GetTask_ReturnTask() {
         when(taskRepository.findById(any(Long.class))).thenReturn(Optional.of(task));
 
         Task idTask = taskService.getTask(1L);
@@ -80,7 +80,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_throwIfNoTaskFound() {
+    public void TaskService_GetTask_ThrowIfNoTask() {
         when(taskRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
         assertThrows(TaskNotFoundException.class, () -> taskService.getTask(1L));
@@ -89,7 +89,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_getListOfTasks() {
+    public void TaskService_GetTasks_ReturnListOfTasks() {
         when(taskRepository.findAll()).thenReturn(tasks);
 
         List<Task> createdTask = taskService.getTasks();
@@ -102,7 +102,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_updateTask() {
+    public void TaskService_UpdateTask_ReturnTask() {
         when(taskRepository.existsById(any(Long.class))).thenReturn(true);
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
@@ -117,7 +117,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_throwIfUpdateFailed() {
+   public void TaskService_UpdateTask_ThrowIfNoTaskFound() {
         when(taskRepository.existsById(any(Long.class))).thenReturn(false);
 
         assertThrows(TaskNotFoundException.class, () -> taskService.updateTask(taskDto, 1L));
@@ -126,7 +126,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void should_deleteTask() {
+    public void TaskService_DeleteTask_ReturnVoid() {
         when(taskRepository.existsById(any(Long.class))).thenReturn(false);
 
         // Act
